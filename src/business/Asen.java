@@ -8,6 +8,8 @@ public class Asen {
 		// TODO Auto-generated method stub
 		DomParser parser = new DomParser("hello-world.xml");
 		MuleApp app = parser.parseFromXml();
+		TestGenerator generator = new TestGenerator();
+		generator.genTestForMuleApp(app);
 	}
 
 }
