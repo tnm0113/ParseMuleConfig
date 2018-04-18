@@ -1,3 +1,4 @@
+package model;
 
 public class MuleHttpListener {
 	private String name;

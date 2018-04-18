@@ -1,3 +1,4 @@
+package model;
 
 public class MuleHttpListenerConfig {
 	private int port;

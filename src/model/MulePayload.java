@@ -1,3 +1,4 @@
+package model;
 
 public class MulePayload {
 	private String name;

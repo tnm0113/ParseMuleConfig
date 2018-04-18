@@ -1,8 +1,10 @@
+package model;
 
 public class MuleFlow {
 	private String name;
 	private String docid;
 	private MulePayload payload;
+	private MuleHttpListener httpListener;
 	
 	public String getName() {
 		return name;
@@ -21,5 +23,11 @@ public class MuleFlow {
 	}
 	public void setPayload(MulePayload payload) {
 		this.payload = payload;
+	}
+	public MuleHttpListener getHttpListener() {
+		return httpListener;
+	}
+	public void setHttpListener(MuleHttpListener httpListener) {
+		this.httpListener = httpListener;
 	}
 }
