@@ -31,7 +31,11 @@ public class TestGenerator {
 			writer.newLine();
 			writer.write("\t\tString myStringPayload = \"myPayload\";");
 			writer.newLine();
-			writer.write("\t\tMuleEvent resultMuleEvent = runFlow(\"echoFlow\", testEvent(myStringPayload)); ");
+			String muleEvent = "\t\tMuleEvent resultMuleEvent = runFlow(\"";
+			muleEvent += app.getFlow().getName();
+			muleEvent += "\",testEvent(myStringPayload)";
+//			writer.write("\t\tMuleEvent resultMuleEvent = runFlow(\"echoFlow\", testEvent(myStringPayload)); ");
+			writer.write(muleEvent);
 			writer.newLine();
 			writer.write("\t\tAssert.assertEquals(myStringPayload, resultMuleEvent.getMessage().getPayload()); ");
 			writer.newLine();

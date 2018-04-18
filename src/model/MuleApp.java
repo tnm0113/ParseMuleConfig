@@ -1,8 +1,11 @@
 package model;
 
+import java.util.ArrayList;
+
 public class MuleApp {
 	private MuleFlow flow;
 	private MuleHttpListenerConfig listenerConfig;
+	private ArrayList<MuleFlow> listFlows;
 	
 	public MuleApp() {
 		
@@ -19,5 +22,8 @@ public class MuleApp {
 	}
 	public void setListenerConfig(MuleHttpListenerConfig listenerConfig) {
 		this.listenerConfig = listenerConfig;
+	}
+	public void appendFlow(MuleFlow flow) {
+		listFlows.add(flow);
 	}
 }

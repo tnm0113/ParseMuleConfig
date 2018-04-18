@@ -5,9 +5,9 @@ import org.mule.munit.runner.functional.FunctionalMunitSuite;
 
 public class MyTest extends FunctionalMunitSuite {
 	@Test
-	@public void Test() throws Exception {
+	public void Test() throws Exception {
 		String myStringPayload = "myPayload";
-		MuleEvent resultMuleEvent = runFlow("echoFlow", testEvent(myStringPayload)); 
+		MuleEvent resultMuleEvent = runFlow("hello-worldFlow",testEvent(myStringPayload)
 		Assert.assertEquals(myStringPayload, resultMuleEvent.getMessage().getPayload()); 
 	}
 }
