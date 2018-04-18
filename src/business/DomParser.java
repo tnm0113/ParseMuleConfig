@@ -36,82 +36,90 @@ public class DomParser {
 			NodeList flowList = doc.getElementsByTagName("flow");
 			MuleFlow flow = new MuleFlow();
 			for (int temp = 0; temp < flowList.getLength(); temp++) {
-				Node nNode = flowList.item(temp);
-				System.out.println("\nCurrent Element :" + nNode.getNodeName());
+				Node flowNode = flowList.item(temp);
+				System.out.println("\nCurrent Element :" + flowNode.getNodeName());
 
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					flow.setName(eElement.getAttribute("name"));
-					flow.setDocid(eElement.getAttribute("doc:id"));
-					app.setFlow(flow);
+				if (flowNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element flowElement = (Element) flowNode;
+					flow.setName(flowElement.getAttribute("name"));
+					flow.setDocid(flowElement.getAttribute("doc:id"));
 					System.out.println("Flow name : " 
-							+ eElement.getAttribute("name"));
+							+ flowElement.getAttribute("name"));
 					System.out.println("Flow doc id : " 
-							+ eElement.getAttribute("doc:id"));
+							+ flowElement.getAttribute("doc:id"));
+					
+					System.out.println("----------------------------");
+					System.out.println("Flow Http Listener element: ");
+					NodeList httpListenerList = flowElement.getElementsByTagName("http:listener");
+					for (int i = 0; i < httpListenerList.getLength(); i++) {
+						Node httpListenerNode = httpListenerList.item(i);
+						System.out.println("\nCurrent Element :" + httpListenerNode.getNodeName());
+
+						if (httpListenerNode.getNodeType() == Node.ELEMENT_NODE) {
+							MuleHttpListener httpListener = new MuleHttpListener();
+							Element httpListenerElement = (Element) httpListenerNode;
+							if (httpListenerElement.hasAttribute("name"))
+								httpListener.setName(httpListenerElement.getAttribute("name"));
+							if (httpListenerElement.hasAttribute("path"))
+								httpListener.setPath(httpListenerElement.getAttribute("path"));
+							if (httpListenerElement.hasAttribute("allowedMethods"))
+								httpListener.setAllowedMethod(httpListenerElement.getAttribute("allowedMethods"));
+							flow.setHttpListener(httpListener);
+							System.out.println("Name : " 
+									+ httpListenerElement.getAttribute("name"));
+							System.out.println("Path : " 
+									+ httpListenerElement.getAttribute("path"));
+						}
+					}
+					
+					System.out.println("----------------------------");
+					System.out.println("Flow Payload element: ");
+					NodeList payloadList = flowElement.getElementsByTagName("set-payload");
+					for (int i = 0; i < payloadList.getLength(); i++) {
+						Node payLoadNode = payloadList.item(i);
+						System.out.println("\nCurrent Element :" + payLoadNode.getNodeName());
+
+						if (payLoadNode.getNodeType() == Node.ELEMENT_NODE) {
+							MulePayload payload = new MulePayload();
+							Element payLoadElement = (Element) payLoadNode;
+							if (payLoadElement.hasAttribute("value"))
+								payload.setValue(payLoadElement.getAttribute("value"));
+							if (payLoadElement.hasAttribute("mimeType"))
+								payload.setMimeType(payLoadElement.getAttribute("mimeType"));
+							flow.setPayload(payload);
+							System.out.println("Value : " 
+									+ payLoadElement.getAttribute("value"));
+							System.out.println("Mime Type : " 
+									+ payLoadElement.getAttribute("mimeType"));
+						}
+					}
+					
+					app.appendFlow(flow);
 				}
 			}
 			
 			System.out.println("----------------------------");
 			System.out.println("Http Listener Config element: ");
 			NodeList httpListenerConnection = doc.getElementsByTagName("http:listener-connection");
-			MuleHttpListenerConfig httpListenerConfig = new MuleHttpListenerConfig();
 			for (int temp = 0; temp < httpListenerConnection.getLength(); temp++) {
-				Node nNode = httpListenerConnection.item(temp);
-				System.out.println("\nCurrent Element :" + nNode.getNodeName());
+				Node httpListenerConfigNode = httpListenerConnection.item(temp);
+				System.out.println("\nCurrent Element :" + httpListenerConfigNode.getNodeName());
 
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					httpListenerConfig.setHost(eElement.getAttribute("host"));
-					httpListenerConfig.setPort(Integer.parseInt(eElement.getAttribute("port")));
+				if (httpListenerConfigNode.getNodeType() == Node.ELEMENT_NODE) {
+					MuleHttpListenerConfig httpListenerConfig = new MuleHttpListenerConfig();
+					Element httpListenerConfigElement = (Element) httpListenerConfigNode;
+					if (httpListenerConfigElement.hasAttribute("host"))
+						httpListenerConfig.setHost(httpListenerConfigElement.getAttribute("host"));
+					if (httpListenerConfigElement.hasAttribute("port"))
+						httpListenerConfig.setPort(Integer.parseInt(httpListenerConfigElement.getAttribute("port")));
 					app.setListenerConfig(httpListenerConfig);
 					System.out.println("Host : " 
-							+ eElement.getAttribute("host"));
+							+ httpListenerConfigElement.getAttribute("host"));
 					System.out.println("Port : " 
-							+ eElement.getAttribute("port"));
+							+ httpListenerConfigElement.getAttribute("port"));
 					
 				}
 			}
-			
-			System.out.println("----------------------------");
-			System.out.println("Http Listener element: ");
-			NodeList httpListenerList = doc.getElementsByTagName("http:listener");
-			MuleHttpListener httpListener = new MuleHttpListener();
-			for (int temp = 0; temp < httpListenerList.getLength(); temp++) {
-				Node nNode = httpListenerList.item(temp);
-				System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					httpListener.setName(eElement.getAttribute("name"));
-					httpListener.setPath(eElement.getAttribute("path"));
-					flow.setHttpListener(httpListener);
-					System.out.println("Name : " 
-							+ eElement.getAttribute("name"));
-					System.out.println("Path : " 
-							+ eElement.getAttribute("path"));
-				}
-			}
-			
-			System.out.println("----------------------------");
-			System.out.println("Payload element: ");
-			NodeList payloadList = doc.getElementsByTagName("set-payload");
-			MulePayload payload = new MulePayload();
-			for (int temp = 0; temp < payloadList.getLength(); temp++) {
-				Node nNode = payloadList.item(temp);
-				System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					payload.setValue(eElement.getAttribute("value"));
-					payload.setMimeType(eElement.getAttribute("mimeType"));
-					flow.setPayload(payload);
-					System.out.println("Value : " 
-							+ eElement.getAttribute("value"));
-					System.out.println("Mime Type : " 
-							+ eElement.getAttribute("mimeType"));
-				}
-			}
-			app.setFlow(flow);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

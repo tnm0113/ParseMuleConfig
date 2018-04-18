@@ -8,7 +8,7 @@ public class MuleApp {
 	private ArrayList<MuleFlow> listFlows;
 	
 	public MuleApp() {
-		
+		listFlows = new ArrayList<MuleFlow>();
 	}
 	
 	public MuleFlow getFlow() {
@@ -25,5 +25,13 @@ public class MuleApp {
 	}
 	public void appendFlow(MuleFlow flow) {
 		listFlows.add(flow);
+	}
+
+	public ArrayList<MuleFlow> getListFlows() {
+		return listFlows;
+	}
+
+	public void setListFlows(ArrayList<MuleFlow> listFlows) {
+		this.listFlows = listFlows;
 	}
 }
